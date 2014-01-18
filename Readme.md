@@ -1,7 +1,7 @@
 
 # dom-iterator
 
-  iterate through DOM nodes
+  Iterate over DOM nodes. A better [NodeIterator](https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator).
 
 ## Installation
 
@@ -12,7 +12,7 @@
 ## Example
 
 ```js
-var it = iterator(node).filter(Node.TEXT_COMMENT);
+var it = iterator(node).filter(Node.TEXT_NODE);
 var next;
 
 while (next = it.next()) {
