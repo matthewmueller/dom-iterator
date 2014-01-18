@@ -34,7 +34,7 @@ function iterator(node, parent) {
 
 iterator.prototype.filter = function() {
   var args = slice.call(arguments);
-  var types = this.types;
+  var types = this.types = this.types || {};
 
   for (var i = 0, len = args.length; i < len; i++) {
     types[args[i]] = true;
@@ -102,7 +102,7 @@ function traverse(dir, child) {
           type = node.nodeType;
         }
 
-        if (types[type]) {
+        if (!types || types[type]) {
           this.node = node;
           return node;
         }
