@@ -9,6 +9,17 @@
 
     $ component install matthewmueller/dom-iterator
 
+## Example
+
+```js
+var it = iterator(node).filter(Node.TEXT_COMMENT);
+var next;
+
+while (next = it.next()) {
+  next // next textnodes after node
+}
+```
+
 ## API
 
 ### `iterator(node, [root])`
