@@ -1,7 +1,7 @@
 
 # dom-iterator
 
-  Iterate over DOM nodes. A better [NodeIterator](https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator).
+  Iterate over DOM nodes. A better [NodeIterator](https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator). WIP. Works with all nodes except element nodes.
 
 ## Installation
 
