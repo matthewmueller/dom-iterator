@@ -16,7 +16,7 @@ var it = iterator(node).filter(Node.TEXT_COMMENT);
 var next;
 
 while (next = it.next()) {
-  next // next textnodes after node
+  console.log(next.nodeValue) // next textnodes after node
 }
 ```
 
@@ -47,8 +47,7 @@ var node = it.next()
 var next = it.next()
 ```
 
-### `iterator#prev()`
-### `iterator#previous()`
+### `iterator#prev()`, `iterator#previous()`
 
 Gets the previous DOM `node`. If no `node` exists, return `null`.
 
