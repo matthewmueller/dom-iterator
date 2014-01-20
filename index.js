@@ -97,7 +97,7 @@ function traverse(dir, child) {
         node = node[dir];
         type = node.nodeType;
 
-        if (1 == type) {
+        if (1 == type && node[child]) {
           node = node[child];
           type = node.nodeType;
         }
