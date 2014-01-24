@@ -107,6 +107,46 @@ describe('iterator', function() {
     })
   })
 
+  describe('peak', function() {
+
+    it('should allow you to peak in front', function() {
+      i = iterator(dom);
+      assert('hi' == i.peak().nodeValue);
+      assert('BODY' == i.node.tagName);
+      assert('hi' == i.next().nodeValue)
+    })
+
+    it('should allow you to peak behind', function() {
+      i = iterator(dom.querySelector('article'));
+      assert('STRONG' == i.peak(-1).tagName);
+      assert('ARTICLE' == i.node.tagName);
+      assert('STRONG' == i.prev().tagName)
+    })
+
+    it('should allow you to peak forward multiple nodes', function() {
+      i = iterator(dom);
+      assert('EM' == i.peak(3).tagName);
+      assert('BODY' == i.node.tagName);
+      assert('hi' == i.next().nodeValue)
+    })
+
+    it('should allow you to peak behind multiple nodes', function() {
+      i = iterator(dom.querySelector('article'));
+      assert('EM' == i.peak(-3).tagName);
+      assert('ARTICLE' == i.node.tagName);
+      assert('STRONG' == i.prev().tagName)
+    })
+
+    it('should support chaining, saving the peak offset', function() {
+      i = iterator(dom);
+      assert('hi' == i.peak().nodeValue)
+      assert('ARTICLE' == i.peak().tagName)
+      assert('BODY' == i.node.tagName);
+      assert('hi' == i.next().nodeValue)
+      assert('hi' == i.peak().nodeValue)
+    })
+  })
+
   function verify(it, dir, expected) {
     expected.forEach(function(expect) {
       var n = it[dir]();

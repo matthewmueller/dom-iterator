@@ -56,6 +56,32 @@ var node = it.prev()
 var prev = it.prev()
 ```
 
+### `iterator.peak([n])`
+
+Sometimes you want to peak on the following or previous node without actually visiting it. With `peak` you can peak forward or backwards `n` steps. If no `n` is given, peak forward 1 step. Peaking chains until you run `it.next()` or `it.prev()`.
+
+Peaking forward:
+
+```js
+it.peak(); // peak forward 1
+it.peak(3); // peak forward 3 steps
+```
+
+Peaking backwards:
+
+```js
+it.peak(-3) // peak backwards 3 steps
+```
+
+Chaining:
+
+```js
+var node;
+while (node = it.peak()) {
+  // ...
+}
+```
+
 ### `iterator.reset([newNode])`
 
 Reset the iterator to the original `node`. Optionally pass a `newNode` to start at.

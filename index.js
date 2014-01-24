@@ -18,7 +18,7 @@ module.exports = iterator;
 
 function iterator(node) {
   if (!(this instanceof iterator)) return new iterator(node);
-  this.node = this.start = node;
+  this.node = this.start = this.peaked = node;
   this.types = false;
 }
 
@@ -44,7 +44,7 @@ iterator.prototype.filter = function() {
 /**
  * Reset the iterator
  *
- * @param {Element} node (optional)
+ * @param {Node} node (optional)
  * @return {iterator}
  * @api public
  */
@@ -58,7 +58,7 @@ iterator.prototype.reset = function(node) {
  * Next node
  *
  * @param {Number} type
- * @return {Element|null}
+ * @return {Node|null}
  * @api public
  */
 
@@ -68,12 +68,34 @@ iterator.prototype.next = traverse('nextSibling', 'firstChild');
  * Previous node
  *
  * @param {Number} type
- * @return {Element|null}
+ * @return {Node|null}
  * @api public
  */
 
 iterator.prototype.previous =
 iterator.prototype.prev = traverse('previousSibling', 'lastChild');
+
+/**
+ * Peak in either direction
+ * `n` nodes. Peak backwards
+ * using negative numbers.
+ *
+ * @param {Number} n (optional)
+ * @return {Node|null}
+ * @api public
+ */
+
+iterator.prototype.peak = function(n) {
+  n = undefined == n ? 1 : n;
+  var node;
+
+  if (!n) return this.node;
+  else if (n > 0) while(n--) node = this.next(0, true);
+  else while(n++) node = this.prev(0, true);
+
+  this.peaked = node;
+  return node;
+}
 
 /**
  * Make traverse function
@@ -85,9 +107,9 @@ iterator.prototype.prev = traverse('previousSibling', 'lastChild');
  */
 
 function traverse(dir, child) {
-  return function walk() {
+  return function walk(i, peak) {
+    var node = (peak) ? this.peaked : this.peaked = this.node;
     var start = this.start;
-    var node = this.node;
     var types = this.types;
     var climbing = false;
 
@@ -104,7 +126,8 @@ function traverse(dir, child) {
       }
 
       if (!types || types[node.nodeType]) {
-        this.node = node;
+        if (!peak) this.node = node;
+        else this.peaked = node;
         return node;
       }
     }
