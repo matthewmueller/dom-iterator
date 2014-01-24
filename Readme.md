@@ -1,7 +1,7 @@
 
 # dom-iterator
 
-  Iterate over DOM nodes. A better [NodeIterator](https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator). WIP. Works with all nodes except element nodes.
+  Iterate over DOM nodes. A better [NodeIterator](https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator). Travels in both ways
 
 ## Installation
 
@@ -22,9 +22,9 @@ while (next = it.next()) {
 
 ## API
 
-### `iterator(node, [root])`
+### `iterator(node)`
 
-Initialize an iterator starting on the `node`. Optionally pass `root` to for the traversal to stay within the subtree. `root` defaults to `document.body`.
+Initialize an iterator starting on the `node`.
 
 ### `iterator.filter(type)`
 
@@ -56,12 +56,19 @@ var node = it.prev()
 var prev = it.prev()
 ```
 
-### `iterator.reset()`
+### `iterator.reset([newNode])`
 
-Reset the iterator to the original `node`
+Reset the iterator to the original `node`. Optionally pass a `newNode` to start at.
 
 ```js
 it.reset();
+```
+
+## Run Tests
+
+```js
+npm install component-test
+make test
 ```
 
 ## License

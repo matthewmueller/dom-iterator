@@ -14,14 +14,12 @@ module.exports = iterator;
  * Initialize `iterator`
  *
  * @param {Node} node
- * @param {Node} parent (optional)
  */
 
-function iterator(node, parent) {
-  if (!(this instanceof iterator)) return new iterator(node, parent);
+function iterator(node) {
+  if (!(this instanceof iterator)) return new iterator(node);
   this.node = this.start = node;
-  this.types = {};
-  this.parent = parent || document.body;
+  this.types = false;
 }
 
 /**
@@ -46,12 +44,13 @@ iterator.prototype.filter = function() {
 /**
  * Reset the iterator
  *
+ * @param {Element} node (optional)
  * @return {iterator}
  * @api public
  */
 
-iterator.prototype.reset = function() {
-  this.node = this.start;
+iterator.prototype.reset = function(node) {
+  this.node = node || this.start;
   return this;
 };
 
@@ -86,29 +85,28 @@ iterator.prototype.prev = traverse('previousSibling', 'lastChild');
  */
 
 function traverse(dir, child) {
-  return function() {
+  return function walk() {
+    var start = this.start;
     var node = this.node;
     var types = this.types;
-    var parent = this.parent;
-    var type;
+    var climbing = false;
 
-    while (node && node != parent) {
-      while (node[dir]) {
+    while (node) {
+      if (!climbing && node[child]) {
+        node = node[child];
+      } else if (node[dir]) {
         node = node[dir];
-        type = node.nodeType;
-
-        if (1 == type && node[child]) {
-          node = node[child];
-          type = node.nodeType;
-        }
-
-        if (!types || types[type]) {
-          this.node = node;
-          return node;
-        }
+        climbing = false;
+      } else {
+        node = node.parentNode;
+        climbing = true;
+        continue;
       }
 
-      node = node.parentNode;
+      if (!types || types[node.nodeType]) {
+        this.node = node;
+        return node;
+      }
     }
 
     return null;
