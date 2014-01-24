@@ -62,6 +62,16 @@ describe('iterator', function() {
       i.reset()
       verify(i, 'prev', ['hi', null])
     })
+
+    it('should work in both directions', function() {
+      dom = domify('hi <strong>jimbo</strong>')
+      i = iterator(dom).filter(Node.TEXT_NODE);
+      assert('hi ' == i.next().nodeValue);
+      assert('jimbo' == i.next().nodeValue);
+      assert(null == i.next());
+      assert('hi ' == i.prev().nodeValue);
+      assert(null == i.prev());
+    })
   })
 
   describe('all nodes', function() {
