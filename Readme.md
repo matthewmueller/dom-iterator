@@ -26,18 +26,6 @@ while (next = it.next()) {
 
 Initialize an iterator starting on the `node`.
 
-### `iterator.filter(type)`
-
-Only select nodes of `type`. Pass additional arguments for each type.
-
-```js
-// using numbers
-it.filter(1, 2)
-
-// using enums
-it.filter(Node.COMMENT_NODE, Node.TEXT_NODE)
-```
-
 ### `iterator#next()`
 
 Gets the next DOM `node`. If no `node` exists, return `null`.
@@ -54,6 +42,38 @@ Gets the previous DOM `node`. If no `node` exists, return `null`.
 ```js
 var node = it.prev()
 var prev = it.prev()
+```
+
+### `iterator.filter(type)`
+
+Only select nodes of `type`. Pass additional arguments for each type.
+
+```js
+// using numbers
+it.filter(1, 2)
+
+// using enums
+it.filter(Node.COMMENT_NODE, Node.TEXT_NODE)
+```
+
+### `iterator.watch(expr, fn)`
+
+Watch for expressions and execute `fn`. `expr` can be either a string or a function.
+
+Here's a few examples:
+
+```js
+i.watch('nodeType == 1 && nodeName == "ARTICLE"', function(node) {
+  // element node is an <article> tag
+});
+
+i.watch('nodeType == 1 && textContent == ""', function(node) {
+  // element node is empty
+});
+
+i.watch('nodeType == 1 && (nodeName == "EM" || nodeName == "STRONG")', function(node) {
+  // element node is either a <em> or <strong> tag
+});
 ```
 
 ### `iterator.peak([n])`

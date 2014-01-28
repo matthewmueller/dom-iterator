@@ -4,7 +4,9 @@
   "description": "iterate through DOM nodes",
   "version": "0.0.2",
   "keywords": ["iterate", "dom"],
-  "dependencies": {},
+  "dependencies": {
+    "component/props": "1.1.0"
+  },
   "development": {
     "component/domify": "*",
     "component/assert": "*"
