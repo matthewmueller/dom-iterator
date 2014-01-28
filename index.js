@@ -123,6 +123,19 @@ iterator.prototype.peak = function(n) {
 }
 
 /**
+ * Add a plugin
+ *
+ * @param {Function} fn
+ * @return {iterator}
+ * @api public
+ */
+
+iterator.prototype.use = function(fn) {
+  fn(this);
+  return this;
+}
+
+/**
  * Make traverse function
  *
  * @param {String} dir

@@ -110,6 +110,10 @@ Reset the iterator to the original `node`. Optionally pass a `newNode` to start 
 it.reset();
 ```
 
+### `iterator.use(fn)`
+
+Add a plugin to the iterator.
+
 ## Run Tests
 
 ```js
