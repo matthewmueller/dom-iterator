@@ -173,6 +173,15 @@ describe('iterator', function() {
       assert(!emptyTags);
       assert(!emOrStrong);
     });
+  });
+
+  describe('closing(true)', function() {
+    it('should visit closing', function() {
+      i = iterator(dom).closing(true);
+      verify(i, 'next', ['hi', 'ARTICLE', 'EM', 'whatever', 'EM', 'omg', 'STRONG', 'ARTICLE', 'bye', 'BODY', null])
+      i.reset();
+      verify(i, 'prev', [null])
+    });
   })
 
   function verify(it, dir, expected) {

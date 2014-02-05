@@ -56,6 +56,18 @@ it.filter(1, 2)
 it.filter(Node.COMMENT_NODE, Node.TEXT_NODE)
 ```
 
+### `iterator.closing(visit)`
+
+Visit the elements as they close. Defaults to `false`
+
+```js
+var dom = domify('<em>hi</em>')
+var it = it(dom).closing(true);
+it.next() "EM"
+it.next() "hi"
+it.next() "EM"
+```
+
 ### `iterator.watch(expr, fn)`
 
 Watch for expressions and execute `fn`. `expr` can be either a string or a function.

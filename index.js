@@ -24,6 +24,8 @@ function iterator(node) {
   this.node = this.start = this.peaked = node;
   this.exprs = [];
   this.types = false;
+  this.visitClosing = false;
+  this.climbing = false;
 }
 
 /**
@@ -123,6 +125,15 @@ iterator.prototype.peak = function(n) {
 }
 
 /**
+ * Visit closing tags
+ */
+
+iterator.prototype.closing = function(close) {
+  this.visitClosing = close;
+  return this;
+}
+
+/**
  * Add a plugin
  *
  * @param {Function} fn
@@ -147,10 +158,11 @@ iterator.prototype.use = function(fn) {
 function traverse(dir, child) {
   return function walk(i, peak) {
     var node = (peak) ? this.peaked : this.peaked = this.node;
+    var closing = this.visitClosing;
     var start = this.start;
     var types = this.types;
     var exprs = this.exprs;
-    var climbing = false;
+    var climbing = (closing) ? this.climbing : false;
 
     while (node) {
       if (!climbing && node[child]) {
@@ -161,8 +173,10 @@ function traverse(dir, child) {
       } else {
         node = node.parentNode;
         climbing = true;
-        continue;
+        if (!closing) continue;
       }
+
+      this.climbing = climbing;
 
       if (!types || types[node.nodeType]) {
         if (peak) this.peaked = node;
