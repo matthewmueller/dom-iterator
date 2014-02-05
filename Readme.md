@@ -68,26 +68,6 @@ it.next() "hi"
 it.next() "EM"
 ```
 
-### `iterator.watch(expr, fn)`
-
-Watch for expressions and execute `fn`. `expr` can be either a string or a function.
-
-Here's a few examples:
-
-```js
-i.watch('nodeType == 1 && nodeName == "ARTICLE"', function(node) {
-  // element node is an <article> tag
-});
-
-i.watch('nodeType == 1 && textContent == ""', function(node) {
-  // element node is empty
-});
-
-i.watch('nodeType == 1 && (nodeName == "EM" || nodeName == "STRONG")', function(node) {
-  // element node is either a <em> or <strong> tag
-});
-```
-
 ### `iterator.peak([n])`
 
 Sometimes you want to peak on the following or previous node without actually visiting it. With `peak` you can peak forward or backwards `n` steps. If no `n` is given, peak forward 1 step. Peaking chains until you run `it.next()` or `it.prev()`.

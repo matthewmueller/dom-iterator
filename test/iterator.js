@@ -147,34 +147,6 @@ describe('iterator', function() {
     })
   })
 
-  describe('watch(expr, [fn])', function() {
-    it('should watch for elements', function() {
-      i = iterator(dom);
-      var articles = 1;
-      var emptyTags = 1;
-      var emOrStrong = 2;
-
-      i.watch('nodeType == 1 && nodeName == "ARTICLE"', function(node) {
-        articles--;
-      });
-
-      i.watch('nodeType == 1 && textContent == ""', function(node) {
-        emptyTags--;
-      });
-
-      i.watch('nodeType == 1 && (nodeName == "EM" || nodeName == "STRONG")', function(node) {
-        emOrStrong--;
-      });
-
-      var node = i.next();
-      while (node) node = i.next();
-
-      assert(!articles);
-      assert(!emptyTags);
-      assert(!emOrStrong);
-    });
-  });
-
   describe('closing(true)', function() {
     it('should visit closing', function() {
       i = iterator(dom).closing(true);
