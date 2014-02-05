@@ -1,0 +1,31 @@
+{
+  "name": "dom-iterator",
+  "version": "0.0.5",
+  "description": "iterator for mini-html-parser",
+  "main": "index.js",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "devDependencies": {
+    "component-test": "~0.1.2"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MatthewMueller/dom-iterator.git"
+  },
+  "keywords": [
+    "iterator",
+    "dom",
+    "mini-html-parser"
+  ],
+  "author": "Matthew Mueller",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MatthewMueller/dom-iterator/issues"
+  },
+  "homepage": "https://github.com/MatthewMueller/dom-iterator"
+}
