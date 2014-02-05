@@ -21,7 +21,6 @@ module.exports = iterator;
 function iterator(node) {
   if (!(this instanceof iterator)) return new iterator(node);
   this.node = this.start = this.peaked = node;
-  this.exprs = [];
   this.types = false;
   this.visitClosing = false;
   this.climbing = false;
@@ -56,6 +55,7 @@ iterator.prototype.filter = function() {
 
 iterator.prototype.reset = function(node) {
   this.node = node || this.start;
+  this.climbing = false;
   return this;
 };
 
@@ -139,7 +139,6 @@ function traverse(dir, child) {
     var closing = this.visitClosing;
     var start = this.start;
     var types = this.types;
-    var exprs = this.exprs;
     var climbing = (closing) ? this.climbing : false;
 
     while (node) {
@@ -154,6 +153,8 @@ function traverse(dir, child) {
         if (!closing) continue;
       }
 
+      if (!node) break;
+
       this.climbing = climbing;
 
       if (!types || types[node.nodeType]) {
@@ -163,6 +164,7 @@ function traverse(dir, child) {
       }
     }
 
+    this.climbing = false;
     return null;
   };
 }

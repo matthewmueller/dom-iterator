@@ -151,8 +151,18 @@ describe('iterator', function() {
     it('should visit closing', function() {
       i = iterator(dom).closing(true);
       verify(i, 'next', ['hi', 'ARTICLE', 'EM', 'whatever', 'EM', 'omg', 'STRONG', 'ARTICLE', 'bye', 'BODY', null])
+      verify(i, 'prev', ['bye', 'ARTICLE', 'STRONG', 'omg', 'EM', 'whatever', 'EM', 'ARTICLE', 'hi', 'BODY', null]);
       i.reset();
-      verify(i, 'prev', [null])
+
+      assert('hi' == i.next().nodeValue)
+      assert('ARTICLE' == i.next().nodeName)
+      assert('EM' == i.next().nodeName)
+      assert('whatever' == i.next().nodeValue)
+      assert('EM' == i.prev().nodeName)
+      assert('ARTICLE' == i.prev().nodeName)
+      assert('hi' == i.prev().nodeValue)
+      assert('BODY' == i.prev().nodeName)
+      assert(null == i.prev())
     });
   })
 
