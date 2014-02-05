@@ -3,11 +3,17 @@
 
   Iterate over DOM nodes. A better [NodeIterator](https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator). Travels in both directions.
 
+  Can be used in node.js with [mini-html-parser](http://github.com/matthewmueller/mini-html-parser).
+
 ## Installation
 
   Install with [component(1)](http://component.io):
 
     $ component install matthewmueller/dom-iterator
+
+  With node.js:
+
+    $ npm install dom-iterator
 
 ## Example
 
