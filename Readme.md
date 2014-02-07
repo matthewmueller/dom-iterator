@@ -78,7 +78,7 @@ it.filter(Node.COMMENT_NODE, Node.TEXT_NODE)
 
 ### `iterator.revisit(revisit)`
 
-You can also skip over elements you already visited, by setting `revisit` to false.
+You can also skip over elements you already visited, by setting `revisit` to false. By default, `revisit` is set to `true`.
 
 ```js
 it.revisit(false);
@@ -86,11 +86,11 @@ it.revisit(false);
 
 Here's how that would change the iterator:
 
-#### it.next()
+**it.next():**
 
 ![next](https://i.cloudup.com/VX6BbZEuzf.png)
 
-#### it.prev()
+**it.prev()**
 
 ![prev](https://i.cloudup.com/NEKe6F4EUX.png)
 
