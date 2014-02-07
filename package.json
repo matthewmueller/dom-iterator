@@ -7,6 +7,9 @@
     "example": "examples",
     "test": "test"
   },
+  "dependencies": {
+    "xor": "component/xor#0.0.2"
+  },
   "devDependencies": {
     "component-test": "~0.1.2"
   },

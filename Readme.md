@@ -1,7 +1,7 @@
 
 # dom-iterator
 
-  Iterate over DOM nodes. A better [NodeIterator](https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator). Travels in both directions.
+  Feature-rich, well-tested Iterator for traversing DOM nodes. A better version of [NodeIterator](https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator). Travels in both directions.
 
   Can be used in node.js with [mini-html-parser](http://github.com/matthewmueller/mini-html-parser).
 
@@ -28,9 +28,15 @@ while (next = it.next()) {
 
 ## API
 
-### `iterator(node)`
+### `iterator(node, root)`
 
-Initialize an iterator starting on the `node`.
+Initialize an iterator starting on the `node`. Optionally you can
+specify a `root` to limit your traversal to a particular subtree.
+`root` must be either a parent or an ancestor of `node`.
+
+```js
+var it = iterator(el.firstChild, el)
+```
 
 ### `iterator#next()`
 
@@ -41,6 +47,10 @@ var node = it.next()
 var next = it.next()
 ```
 
+Here's a look at how the DOM is traversed:
+
+![next](https://i.cloudup.com/kl80e5axNP.png)
+
 ### `iterator#prev()`, `iterator#previous()`
 
 Gets the previous DOM `node`. If no `node` exists, return `null`.
@@ -49,6 +59,10 @@ Gets the previous DOM `node`. If no `node` exists, return `null`.
 var node = it.prev()
 var prev = it.prev()
 ```
+
+Here's a look at how the DOM is traversed:
+
+![prev](https://i.cloudup.com/EkaCyvdwvF.png)
 
 ### `iterator.filter(type)`
 
@@ -62,21 +76,29 @@ it.filter(1, 2)
 it.filter(Node.COMMENT_NODE, Node.TEXT_NODE)
 ```
 
-### `iterator.closing(visit)`
+### `iterator.opening()`
 
-Visit the elements as they close. Defaults to `false`
+Jump to the opening tag of an element. This is the default.
 
 ```js
-var dom = domify('<em>hi</em>')
-var it = it(dom).closing(true);
-it.next() "EM"
-it.next() "hi"
-it.next() "EM"
+var dom = domify('<em>hi</em>');
+var it = it(dom).opening()
+it.next() // 'hi'
+```
+
+### `iterator.closing()`
+
+Jump to the closing tag of an element
+
+```js
+var dom = domify('<em>hi</em>');
+var it = it(dom).closing()
+it.prev() // 'hi'
 ```
 
 ### `iterator.peak([n])`
 
-Sometimes you want to peak on the following or previous node without actually visiting it. With `peak` you can peak forward or backwards `n` steps. If no `n` is given, peak forward 1 step. Peaking chains until you run `it.next()` or `it.prev()`.
+Sometimes you want to peak on the following or previous node without actually visiting it. With `peak` you can peak forward or backwards `n` steps. If no `n` is given, peak forward 1 step.
 
 Peaking forward:
 
@@ -89,15 +111,6 @@ Peaking backwards:
 
 ```js
 it.peak(-3) // peak backwards 3 steps
-```
-
-Chaining:
-
-```js
-var node;
-while (node = it.peak()) {
-  // ...
-}
 ```
 
 ### `iterator.reset([newNode])`
