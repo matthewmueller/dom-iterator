@@ -167,9 +167,18 @@ Add a plugin to the iterator.
 
 ## Run Tests
 
+On the server:
+
 ```js
-npm install component-test
+npm install
 make test
+```
+
+Or in the browser:
+
+```js
+npm install
+make test-browser
 ```
 
 ## License

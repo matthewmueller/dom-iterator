@@ -13,7 +13,8 @@
   },
   "devDependencies": {
     "mini-html-parser": "0.0.3",
-    "mocha": "~1.17.1"
+    "mocha": "~1.17.1",
+    "component-test": "~0.1.3"
   },
   "scripts": {
     "postinstall": "make npm",
