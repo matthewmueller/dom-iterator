@@ -191,7 +191,7 @@ iterator.prototype.selects = function(node) {
   if (!len) return true;
 
   for (var i = 0; i < len; i++) {
-    if (exprs[i](node)) return true;
+    if (exprs[i].call(this, node)) return true;
   };
 
   return false;
@@ -225,7 +225,7 @@ iterator.prototype.rejects = function(node) {
   if (!len) return true;
 
   for (var i = 0; i < len; i++) {
-    if (exprs[i](node)) return false;
+    if (exprs[i].call(this, node)) return false;
   };
 
   return true;
