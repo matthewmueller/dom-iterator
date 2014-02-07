@@ -2,8 +2,11 @@
   "name": "dom-iterator",
   "Repo": "matthewmueller/dom-iterator",
   "description": "iterate through DOM nodes",
-  "version": "0.0.5",
-  "keywords": ["iterate", "dom"],
+  "version": "0.1.0",
+  "keywords": [
+    "iterate",
+    "dom"
+  ],
   "dependencies": {
     "component/xor": "0.0.2",
     "component/props": "1.1.0"

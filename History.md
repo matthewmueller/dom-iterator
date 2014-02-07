@@ -1,4 +1,16 @@
 
+0.1.0 / 2014-02-07
+==================
+
+ * tests passing in node
+ * added: it#select(expr) and it#reject(expr).
+ * BREAKING removed: it#filter(nodeType)
+ * added: iterator#revisit(revisit)
+ * BREAKING traverses closing tags by default
+ * added: root node
+ * added: it#closing(), it#opening(), it#atOpening(), it#atClosing()
+ * BREAKING removed: it#watch(expr, fn)
+
 0.0.5 / 2014-02-05
 ==================
 
