@@ -2,9 +2,16 @@
  * Module Dependencies
  */
 
-var iterator = require('dom-iterator');
-var domify = require('domify');
 var assert = require('assert');
+
+try {
+  var iterator = require('dom-iterator');
+  var parse = require('domify');
+} catch (e) {
+  var iterator = require('../');
+  var parse = function(str) { return require('mini-html-parser')(str).parse(); }
+}
+
 
 /**
  * Tests
@@ -14,7 +21,7 @@ describe('iterator', function() {
   var dom, i, article;
 
   beforeEach(function() {
-    dom = domify('<body>hi<article><em>whatever</em>omg<strong></strong></article>bye</body>');
+    dom = parse('<body>hi<article><em>whatever</em>omg<strong></strong></article>bye</body>');
     article = dom.childNodes[1];
   });
 
@@ -223,29 +230,29 @@ describe('iterator', function() {
     it('should allow you to peak in front', function() {
       i = iterator(dom);
       assert('hi' == i.peak().nodeValue);
-      assert('BODY' == i.node.tagName);
+      assert('BODY' == i.node.nodeName);
       assert('hi' == i.next().nodeValue)
     })
 
     it('should allow you to peak behind', function() {
       i = iterator(article).closing();
-      assert('STRONG' == i.peak(-1).tagName);
-      assert('ARTICLE' == i.node.tagName);
-      assert('STRONG' == i.prev().tagName)
+      assert('STRONG' == i.peak(-1).nodeName);
+      assert('ARTICLE' == i.node.nodeName);
+      assert('STRONG' == i.prev().nodeName)
     })
 
     it('should allow you to peak forward multiple nodes', function() {
       i = iterator(dom);
-      assert('EM' == i.peak(3).tagName);
-      assert('BODY' == i.node.tagName);
+      assert('EM' == i.peak(3).nodeName);
+      assert('BODY' == i.node.nodeName);
       assert('hi' == i.next().nodeValue)
     })
 
     it('should allow you to peak behind multiple nodes', function() {
       i = iterator(article).closing();
       assert('omg' == i.peak(-3).nodeValue);
-      assert('ARTICLE' == i.node.tagName);
-      assert('STRONG' == i.prev().tagName)
+      assert('ARTICLE' == i.node.nodeName);
+      assert('STRONG' == i.prev().nodeName)
     })
   })
 

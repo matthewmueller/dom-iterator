@@ -12,7 +12,8 @@
     "props": "component/props#1.0.3"
   },
   "devDependencies": {
-    "component-test": "~0.1.2"
+    "mini-html-parser": "0.0.3",
+    "mocha": "~1.17.1"
   },
   "scripts": {
     "postinstall": "make npm",
