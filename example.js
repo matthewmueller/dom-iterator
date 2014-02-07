@@ -13,7 +13,7 @@ var method = chalk.green.bold;
 
 process.stdout.write('\u001B[2J\u001B[0;0f');
 
-var it = iterator(dom);
+var it = iterator(dom).revisit(false);
 !!process.argv[2] ? it.closing() : it.opening();
 color(it);
 

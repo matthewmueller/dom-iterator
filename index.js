@@ -152,10 +152,10 @@ function traverse(dir, child) {
         // element with children: <em>...</em>
         node = node[child];
         closing = !next;
-        if (!revisit) continue;
       } else if (1 == node.nodeType && !node[child] && xor(next, closing)) {
         // empty element tag: <em></em>
         closing = next;
+        if (!revisit) continue;
       } else if (node[dir]) {
         // element has a neighbor: ...<em></em>...
         node = node[dir];

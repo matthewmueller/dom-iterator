@@ -76,6 +76,24 @@ it.filter(1, 2)
 it.filter(Node.COMMENT_NODE, Node.TEXT_NODE)
 ```
 
+### `iterator.revisit(revisit)`
+
+You can also skip over elements you already visited, by setting `revisit` to false.
+
+```js
+it.revisit(false);
+```
+
+Here's how that would change the iterator:
+
+#### it.next()
+
+![next](https://i.cloudup.com/VX6BbZEuzf.png)
+
+#### it.prev()
+
+![prev](https://i.cloudup.com/NEKe6F4EUX.png)
+
 ### `iterator.opening()`
 
 Jump to the opening tag of an element. This is the default.

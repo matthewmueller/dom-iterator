@@ -178,6 +178,46 @@ describe('iterator', function() {
     })
   })
 
+  describe('revisit(false)', function() {
+    it('from top: should ignore the element if you pass it again', function() {
+      i = iterator(dom).revisit(false);
+      assert('<body>' == format(i));
+      assert('hi' == format(i.next(), i));
+      assert('<article>' == format(i.next(), i));
+      assert('<em>' == format(i.next(), i));
+      assert('whatever' == format(i.next(), i));
+      assert('omg' == format(i.next(), i));
+      assert('<strong>' == format(i.next(), i));
+      assert('bye' == format(i.next(), i));
+      assert(null == i.next());
+      assert(null == i.next());
+      assert(null == i.next());
+      assert('bye' == format(i));
+      assert('</article>' == format(i.prev(), i));
+      assert('</strong>' == format(i.prev(), i));
+      assert('omg' == format(i.prev(), i));
+    });
+
+    it('from bottom: should ignore the element if you pass it again', function() {
+      i = iterator(dom).revisit(false).closing();
+      assert('</body>' == format(i));
+      assert('bye' == format(i.prev(), i))
+      assert('</article>' == format(i.prev(), i))
+      assert('</strong>' == format(i.prev(), i))
+      assert('omg' == format(i.prev(), i))
+      assert('</em>' == format(i.prev(), i))
+      assert('whatever' == format(i.prev(), i))
+      assert('hi' == format(i.prev(), i))
+      assert(null == i.prev());
+      assert(null == i.prev());
+      assert(null == i.prev());
+      assert('hi' == format(i));
+      assert('<article>' == format(i.next(), i));
+      assert('<em>' == format(i.next(), i));
+      assert('whatever' == format(i.next(), i));
+    });
+  });
+
   describe('peak', function() {
 
     it('should allow you to peak in front', function() {
