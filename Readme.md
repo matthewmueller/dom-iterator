@@ -142,7 +142,7 @@ var it = it(dom).closing()
 it.prev() // 'hi'
 ```
 
-### `iterator.peak([n])`
+### `iterator.peak([expr], [n])`
 
 Sometimes you want to peak on the following or previous node without actually visiting it. With `peak` you can peak forward or backwards `n` steps. If no `n` is given, peak forward 1 step.
 
@@ -156,7 +156,7 @@ it.peak(3); // peak forward 3 steps
 Peaking backwards:
 
 ```js
-it.peak(-3) // peak backwards 3 steps
+it.peak(Node.ElementNode, -3) // peak backwards 3 steps, only selecting element nodes
 ```
 
 ### `iterator.reset([newNode])`
