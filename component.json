@@ -5,7 +5,8 @@
   "version": "0.0.5",
   "keywords": ["iterate", "dom"],
   "dependencies": {
-    "component/xor": "0.0.2"
+    "component/xor": "0.0.2",
+    "component/props": "1.1.0"
   },
   "development": {
     "component/domify": "*",

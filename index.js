@@ -3,7 +3,7 @@
  */
 
 var xor = require('xor');
-var slice = Array.prototype.slice;
+var props = require('props');
 
 /**
  * Export `iterator`
@@ -24,33 +24,15 @@ function iterator(node, root) {
   if (!(this instanceof iterator)) return new iterator(node, root);
   this.node = this.start = this.peaked = node;
   this.root = root;
-  this.types = false;
   this.closingTag = false;
   this._revisit = true;
+  this._selects = [];
+  this._rejects = [];
 
   if (this.higher(node)) {
     throw new Error('root must be a parent or ancestor to node');
   }
 }
-
-/**
- * Filter on the type
- *
- * @param {Number, ...} filters
- * @return {iterator} self
- * @api public
- */
-
-iterator.prototype.filter = function() {
-  var args = slice.call(arguments);
-  var types = this.types = this.types || {};
-
-  for (var i = 0, len = args.length; i < len; i++) {
-    types[args[i]] = true;
-  }
-
-  return this;
-};
 
 /**
  * Reset the iterator
@@ -72,7 +54,7 @@ iterator.prototype.reset = function(node) {
 iterator.prototype.revisit = function(revisit) {
   this._revisit = undefined == revisit ? true : revisit;
   return this;
-}
+};
 
 /**
  * Jump to the opening tag
@@ -141,9 +123,9 @@ iterator.prototype.prev = traverse('previousSibling', 'lastChild');
 
 function traverse(dir, child) {
   var next = dir == 'nextSibling';
-  return function walk(i, peak) {
+  return function walk(expr, peak) {
+    expr = this.compile(expr);
     var node = (peak) ? this.peaked : this.peaked = this.node;
-    var types = this.types;
     var closing = this.closingTag;
     var revisit = this._revisit;
 
@@ -169,7 +151,7 @@ function traverse(dir, child) {
 
       if (!node || this.higher(node, this.root)) break;
 
-      if (!types || types[node.nodeType]) {
+      if (expr(node) && this.selects(node) && this.rejects(node)) {
         if (peak) this.peaked = node;
         else this.node = node;
         this.closingTag = closing;
@@ -179,6 +161,74 @@ function traverse(dir, child) {
 
     return null;
   };
+}
+
+/**
+ * Select nodes that cause `expr(node)`
+ * to be truthy
+ *
+ * @param {Number|String|Function} expr
+ * @return {iterator} self
+ * @api public
+ */
+
+iterator.prototype.select = function(expr) {
+  expr = this.compile(expr);
+  this._selects.push(expr);
+  return this;
+};
+
+/**
+ * Run through the selects ORing each
+ *
+ * @return {Boolean}
+ * @api private
+ */
+
+iterator.prototype.selects = function(node) {
+  var exprs = this._selects;
+  var len = exprs.length;
+  if (!len) return true;
+
+  for (var i = 0; i < len; i++) {
+    if (exprs[i](node)) return true;
+  };
+
+  return false;
+};
+
+/**
+ * Select nodes that cause `expr(node)`
+ * to be falsy
+ *
+ * @param {Number|String|Function} expr
+ * @return {iterator} self
+ * @api public
+ */
+
+iterator.prototype.reject = function(expr) {
+  expr = this.compile(expr);
+  this._rejects.push(expr);
+  return this;
+};
+
+/**
+ * Run through the reject expressions ANDing each
+ *
+ * @return {Boolean}
+ * @api private
+ */
+
+iterator.prototype.rejects = function(node) {
+  var exprs = this._rejects;
+  var len = exprs.length;
+  if (!len) return true;
+
+  for (var i = 0; i < len; i++) {
+    if (exprs[i](node)) return false;
+  };
+
+  return true;
 };
 
 /**
@@ -194,10 +244,30 @@ function traverse(dir, child) {
 iterator.prototype.higher = function(node) {
   var root = this.root;
   if (!root) return false;
-  var node = node.parentNode;
+  node = node.parentNode;
   while (node && node != root) node = node.parentNode;
   return node != root;
-}
+};
+
+/**
+ * Compile an expression
+ *
+ * @param {String|Function|Number} expr
+ * @return {Function}
+ */
+
+iterator.prototype.compile = function(expr) {
+  switch (typeof expr) {
+    case 'number':
+      return function(node) { return expr == node.nodeType; };
+    case 'string':
+      return new Function('node', 'return ' + props(expr, 'node.'));
+    case 'function':
+      return expr;
+    default:
+      return function() { return true; };
+  }
+};
 
 /**
  * Peak in either direction
@@ -209,17 +279,18 @@ iterator.prototype.higher = function(node) {
  * @api public
  */
 
-iterator.prototype.peak = function(n) {
+iterator.prototype.peak = function(expr, n) {
+  if (arguments.length == 1) n = expr, expr = true;
   n = undefined == n ? 1 : n;
   var node;
 
   if (!n) return this.node;
-  else if (n > 0) while(n--) node = this.next(0, true);
-  else while(n++) node = this.prev(0, true);
+  else if (n > 0) while(n--) node = this.next(expr, true);
+  else while(n++) node = this.prev(expr, true);
 
   this.peaked = node;
   return node;
-}
+};
 
 /**
  * Add a plugin
@@ -232,4 +303,4 @@ iterator.prototype.peak = function(n) {
 iterator.prototype.use = function(fn) {
   fn(this);
   return this;
-}
+};

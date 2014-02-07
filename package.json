@@ -8,12 +8,14 @@
     "test": "test"
   },
   "dependencies": {
-    "xor": "component/xor#0.0.2"
+    "xor": "component/xor#0.0.2",
+    "props": "component/props#1.0.3"
   },
   "devDependencies": {
     "component-test": "~0.1.2"
   },
   "scripts": {
+    "postinstall": "make npm",
     "test": "make test"
   },
   "repository": {

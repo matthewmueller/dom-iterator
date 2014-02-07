@@ -64,17 +64,39 @@ Here's a look at how the DOM is traversed:
 
 ![prev](https://i.cloudup.com/EkaCyvdwvF.png)
 
-### `iterator.filter(type)`
+### `iterator.select(expr)`
 
-Only select nodes of `type`. Pass additional arguments for each type.
+iterate over nodes that pass the expression `expr`. The `expr` can be an
+enum, number, string or function. If it's a number, the `nodeType` is compared.
+
+This function can be chained where all expressions are OR-ed.
 
 ```js
-// using numbers
-it.filter(1, 2)
-
-// using enums
-it.filter(Node.COMMENT_NODE, Node.TEXT_NODE)
+it.select(Node.ElementNode)
+  .select(8)
+  .select('nodeValue == "sloth"')
+  .select(fn)
 ```
+
+This is basically saying, "select all element nodes or comment nodes
+or nodes with the nodeValue "sloth" or nodes that pass the function `fn`".
+
+### `iterator.reject(expr)`
+
+iterate over nodes that do not pass the expression `expr`. The `expr` can be an
+enum, number, string or function. If it's a number, the `nodeType` is compared.
+
+This function can be chained where all expressions are AND-ed.
+
+```js
+it.reject(Node.ElementNode)
+  .reject(8)
+  .reject('nodeValue == "sloth"')
+  .reject(fn)
+```
+
+This is basically saying, "reject all element nodes and comment nodes
+and nodes with the nodeValue sloth and nodes that pass the function `fn`".
 
 ### `iterator.revisit(revisit)`
 

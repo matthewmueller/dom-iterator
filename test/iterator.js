@@ -249,6 +249,114 @@ describe('iterator', function() {
     })
   })
 
+  describe('it.{next,prev}(expr)', function() {
+    it('should work with numbers', function() {
+      i = iterator(dom);
+      assert('hi' == format(i.next(3), i));
+      assert('<article>' == format(i.next(1), i));
+      assert('<em>' == format(i.next(1), i));
+      assert('whatever' == format(i.next(3), i));
+      assert('</em>' == format(i.next(1), i));
+      assert('<strong>' == format(i.next(1), i));
+      assert('</strong>' == format(i.next(1), i));
+      assert('omg' == format(i.prev(3), i));
+      assert('whatever' == format(i.prev(3), i));
+      assert('hi' == format(i.prev(3), i));
+    });
+
+    it('should work with strings', function() {
+      i = iterator(dom);
+      assert('omg' == i.next('nodeValue == "omg"').nodeValue);
+      assert('bye' == i.next('nodeType == 3 && nodeValue == "bye"').nodeValue);
+      assert('omg' == i.prev('nodeType == 3 && nodeValue == "omg"').nodeValue);
+      assert('BODY' == i.prev('nodeType == 1 && nodeName == "BODY"').nodeName);
+      assert(null == i.prev('nodeType == 1 && nodeName == "BODY"'));
+      assert('<body>' == format(i))
+    })
+
+    it('should work with functions', function() {
+      i = iterator(dom);
+      assert('omg' == i.next(function(node) { return node.nodeValue == 'omg'}).nodeValue);
+      assert('BODY' == i.prev(function(node) { return node.nodeName == 'BODY'}).nodeName);
+    })
+  })
+
+  describe('it.select(expr)', function() {
+    it('should work with numbers', function() {
+      i = iterator(dom)
+        .select(3)
+        .select(8);
+
+      assert('<body>' == format(i));
+      assert('hi' == format(i.next(), i))
+      assert('whatever' == format(i.next(), i))
+      assert('omg' == format(i.next(), i))
+      assert('bye' == format(i.next(), i))
+      assert(null == i.next());
+      assert('bye' == format(i));
+      assert('omg' == format(i.prev(), i))
+      assert('whatever' == format(i.prev(), i))
+      assert('hi' == format(i.prev(), i))
+      assert(null == i.prev());
+      assert('hi' == format(i))
+    })
+
+    it('should work with strings', function() {
+      i = iterator(dom)
+        .select('nodeValue == "omg"')
+        .select('nodeName == "ARTICLE"');
+
+      assert('<body>' == format(i));
+      assert('<article>' == format(i.next(), i));
+      assert('omg' == format(i.next(), i));
+      assert('</article>' == format(i.next(), i));
+      assert(null == i.next());
+      assert('</article>' == format(i));
+    })
+  });
+
+describe('it.reject(expr)', function() {
+  it('should work with numbers', function() {
+    i = iterator(dom)
+      .reject(1)
+      .reject(8);
+
+    assert('<body>' == format(i));
+    assert('hi' == format(i.next(), i))
+    assert('whatever' == format(i.next(), i))
+    assert('omg' == format(i.next(), i))
+    assert('bye' == format(i.next(), i))
+    assert(null == i.next());
+    assert('bye' == format(i));
+    assert('omg' == format(i.prev(), i))
+    assert('whatever' == format(i.prev(), i))
+    assert('hi' == format(i.prev(), i))
+    assert(null == i.prev());
+    assert('hi' == format(i))
+  })
+
+  it('should work with strings', function() {
+    i = iterator(dom)
+      .reject('nodeValue == "omg"')
+      .reject('nodeName == "ARTICLE"');
+
+    assert('<body>' == format(i));
+    assert('hi' == format(i.next(), i));
+    assert('<em>' == format(i.next(), i));
+    assert('whatever' == format(i.next(), i));
+    assert('</em>' == format(i.next(), i));
+    assert('<strong>' == format(i.next(), i));
+    assert('</strong>' == format(i.next(), i));
+    assert('bye' == format(i.next(), i));
+    assert('</body>' == format(i.next(), i));
+    assert(null == i.next());
+    assert(null == i.next());
+    assert(null == i.next());
+    assert('</body>' == format(i))
+    assert('bye' == format(i.prev(), i))
+    assert('</strong>' == format(i.prev(), i))
+  })
+});
 
   function format(node, it) {
     if (arguments.length == 1) it = node, node = it.node;
