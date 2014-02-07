@@ -78,8 +78,11 @@ it.select(Node.ElementNode)
   .select(fn)
 ```
 
-This is basically saying, "select all element nodes or comment nodes
-or nodes with the nodeValue "sloth" or nodes that pass the function `fn`".
+This is saying:
+
+> select all element nodes or comment nodes
+> or nodes with the nodeValue "sloth" or
+> nodes that pass the function `fn`.
 
 ### `iterator.reject(expr)`
 
@@ -95,8 +98,11 @@ it.reject(Node.ElementNode)
   .reject(fn)
 ```
 
-This is basically saying, "reject all element nodes and comment nodes
-and nodes with the nodeValue sloth and nodes that pass the function `fn`".
+This is saying:
+
+> reject all element nodes and comment nodes
+> and nodes with the nodeValue sloth and
+> nodes that pass the function `fn`".
 
 ### `iterator.revisit(revisit)`
 
