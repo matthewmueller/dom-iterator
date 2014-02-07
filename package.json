@@ -1,6 +1,6 @@
 {
   "name": "dom-iterator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "iterator for mini-html-parser",
   "main": "index.js",
   "directories": {
