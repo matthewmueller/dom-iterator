@@ -38,13 +38,19 @@ specify a `root` to limit your traversal to a particular subtree.
 var it = iterator(el.firstChild, el)
 ```
 
-### `iterator#next()`
+### `iterator#next([expr], [n])`
 
 Gets the next DOM `node`. If no `node` exists, return `null`.
+You may pass an expression `expr`, to grab the first node that
+matches `expr`.
+
+Additionally, you can pass a number to select the `nth` node.
+Defaults to `1` or the `1st` node.
 
 ```js
 var node = it.next()
-var next = it.next()
+// select the 2nd element node we come across
+var next = it.next(Node.ElementNode, 2)
 ```
 
 Here's a look at how the DOM is traversed:
@@ -54,10 +60,16 @@ Here's a look at how the DOM is traversed:
 ### `iterator#prev()`, `iterator#previous()`
 
 Gets the previous DOM `node`. If no `node` exists, return `null`.
+You may pass an expression `expr`, to grab the first node that
+matches `expr`.
+
+Additionally, you can pass a number to select the `nth` node.
+Defaults to `1` or the `1st` node.
 
 ```js
 var node = it.prev()
-var prev = it.prev()
+// select the 2nd element node we come across
+var prev = it.prev(Node.ElementNode, 2)
 ```
 
 Here's a look at how the DOM is traversed:

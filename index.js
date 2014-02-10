@@ -123,9 +123,10 @@ iterator.prototype.prev = traverse('previousSibling', 'lastChild');
 
 function traverse(dir, child) {
   var next = dir == 'nextSibling';
-  return function walk(expr, peak) {
+  return function walk(expr, n, peak) {
     expr = this.compile(expr);
-    var node = (peak) ? this.peaked : this.peaked = this.node;
+    n = n && n > 0 ? n : 1;
+    var node = this.node;
     var closing = this.closingTag;
     var revisit = this._revisit;
 
@@ -151,9 +152,9 @@ function traverse(dir, child) {
 
       if (!node || this.higher(node, this.root)) break;
 
-      if (expr(node) && this.selects(node) && this.rejects(node)) {
-        if (peak) this.peaked = node;
-        else this.node = node;
+      if (expr(node) && this.selects(node, peak) && this.rejects(node, peak)) {
+        if (--n) continue;
+        if (!peak) this.node = node;
         this.closingTag = closing;
         return node;
       }
@@ -181,17 +182,19 @@ iterator.prototype.select = function(expr) {
 /**
  * Run through the selects ORing each
  *
+ * @param {Node} node
+ * @param {Boolean} peak
  * @return {Boolean}
  * @api private
  */
 
-iterator.prototype.selects = function(node) {
+iterator.prototype.selects = function(node, peak) {
   var exprs = this._selects;
   var len = exprs.length;
   if (!len) return true;
 
   for (var i = 0; i < len; i++) {
-    if (exprs[i].call(this, node)) return true;
+    if (exprs[i].call(this, node, peak)) return true;
   };
 
   return false;
@@ -215,17 +218,19 @@ iterator.prototype.reject = function(expr) {
 /**
  * Run through the reject expressions ANDing each
  *
+ * @param {Node} node
+ * @param {Boolean} peak
  * @return {Boolean}
  * @api private
  */
 
-iterator.prototype.rejects = function(node) {
+iterator.prototype.rejects = function(node, peak) {
   var exprs = this._rejects;
   var len = exprs.length;
   if (!len) return true;
 
   for (var i = 0; i < len; i++) {
-    if (exprs[i].call(this, node)) return false;
+    if (exprs[i].call(this, node, peak)) return false;
   };
 
   return true;
@@ -282,14 +287,9 @@ iterator.prototype.compile = function(expr) {
 iterator.prototype.peak = function(expr, n) {
   if (arguments.length == 1) n = expr, expr = true;
   n = undefined == n ? 1 : n;
-  var node;
-
   if (!n) return this.node;
-  else if (n > 0) while(n--) node = this.next(expr, true);
-  else while(n++) node = this.prev(expr, true);
-
-  this.peaked = node;
-  return node;
+  else if (n > 0) return this.next(expr, n, true);
+  else return this.prev(expr, Math.abs(n), true);
 };
 
 /**
