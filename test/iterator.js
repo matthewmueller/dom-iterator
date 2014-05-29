@@ -9,7 +9,7 @@ try {
   var parse = require('domify');
 } catch (e) {
   var iterator = require('../');
-  var parse = function(str) { return require('mini-html-parser')(str).parse(); }
+  var parse = function(str) { return require('mini-html-parser')(str).parse(); };
 }
 
 
@@ -44,22 +44,22 @@ describe('iterator', function() {
       assert(null == i.next());
       assert(null == i.next());
       assert(null == i.next());
-      assert('</body>' == format(i))
-      assert('bye' == format(i.prev(), i))
-      assert('</article>' == format(i.prev(), i))
-    })
+      assert('</body>' == format(i));
+      assert('bye' == format(i.prev(), i));
+      assert('</article>' == format(i.prev(), i));
+    });
 
     it('should iterate from the middle (opening)', function() {
-      i = iterator(article)
+      i = iterator(article);
 
-      assert('<article>' == format(i))
-      assert('hi' == format(i.prev(), i))
-      assert('<body>' == format(i.prev(), i))
+      assert('<article>' == format(i));
+      assert('hi' == format(i.prev(), i));
+      assert('<body>' == format(i.prev(), i));
       assert(null == i.prev());
 
       i.reset();
 
-      assert('<article>' == format(i))
+      assert('<article>' == format(i));
       assert('<em>' == format(i.next(), i));
       assert('whatever' == format(i.next(), i));
       assert('</em>' == format(i.next(), i));
@@ -70,7 +70,7 @@ describe('iterator', function() {
       assert('bye' == format(i.next(), i));
       assert('</body>' == format(i.next(), i));
       assert(null == i.next());
-    })
+    });
 
 
     it('should iterate from the middle (closing)', function() {
@@ -83,49 +83,49 @@ describe('iterator', function() {
 
       i.reset();
 
-      assert('</article>' == format(i))
-      assert('</strong>' == format(i.prev(), i))
-      assert('<strong>' == format(i.prev(), i))
-      assert('omg' == format(i.prev(), i))
-      assert('</em>' == format(i.prev(), i))
-      assert('whatever' == format(i.prev(), i))
-      assert('<em>' == format(i.prev(), i))
-      assert('<article>' == format(i.prev(), i))
-      assert('hi' == format(i.prev(), i))
-      assert('<body>' == format(i.prev(), i))
+      assert('</article>' == format(i));
+      assert('</strong>' == format(i.prev(), i));
+      assert('<strong>' == format(i.prev(), i));
+      assert('omg' == format(i.prev(), i));
+      assert('</em>' == format(i.prev(), i));
+      assert('whatever' == format(i.prev(), i));
+      assert('<em>' == format(i.prev(), i));
+      assert('<article>' == format(i.prev(), i));
+      assert('hi' == format(i.prev(), i));
+      assert('<body>' == format(i.prev(), i));
       assert(null == i.prev());
-    })
+    });
 
     it('should iterate from the bottom', function() {
       i = iterator(dom).closing();
       assert('</body>' == format(i));
-      assert('bye' == format(i.prev(), i))
-      assert('</article>' == format(i.prev(), i))
-      assert('</strong>' == format(i.prev(), i))
-      assert('<strong>' == format(i.prev(), i))
-      assert('omg' == format(i.prev(), i))
-      assert('</em>' == format(i.prev(), i))
-      assert('whatever' == format(i.prev(), i))
-      assert('<em>' == format(i.prev(), i))
-      assert('<article>' == format(i.prev(), i))
-      assert('hi' == format(i.prev(), i))
-      assert('<body>' == format(i.prev(), i))
+      assert('bye' == format(i.prev(), i));
+      assert('</article>' == format(i.prev(), i));
+      assert('</strong>' == format(i.prev(), i));
+      assert('<strong>' == format(i.prev(), i));
+      assert('omg' == format(i.prev(), i));
+      assert('</em>' == format(i.prev(), i));
+      assert('whatever' == format(i.prev(), i));
+      assert('<em>' == format(i.prev(), i));
+      assert('<article>' == format(i.prev(), i));
+      assert('hi' == format(i.prev(), i));
+      assert('<body>' == format(i.prev(), i));
       assert(null == i.prev());
       assert(null == i.prev());
       assert(null == i.prev());
-      assert('<body>' == format(i))
-      assert('hi' == format(i.next(), i))
-      assert('<article>' == format(i.next(), i))
-    })
+      assert('<body>' == format(i));
+      assert('hi' == format(i.next(), i));
+      assert('<article>' == format(i.next(), i));
+    });
   });
 
   describe('(dom, root)', function() {
     it('should support roots to limit iterator (opening)', function() {
-      i = iterator(article.firstChild, article)
-      assert('<em>' == format(i))
+      i = iterator(article.firstChild, article);
+      assert('<em>' == format(i));
       assert(null == i.prev());
       assert(null == i.prev());
-      assert('<em>' == format(i))
+      assert('<em>' == format(i));
       assert('whatever' == format(i.next(), i));
       assert('</em>' == format(i.next(), i));
       assert('omg' == format(i.next(), i));
@@ -134,56 +134,56 @@ describe('iterator', function() {
       assert(null == i.next());
       assert(null == i.next());
       assert('</strong>' == format(i));
-    })
+    });
 
     it('should support roots to limit iterator (closing)', function() {
       i = iterator(article.lastChild, article).closing();
-      assert('</strong>' == format(i))
+      assert('</strong>' == format(i));
       assert(null == i.next());
       assert(null == i.next());
-      assert('<strong>' == format(i.prev(), i))
-      assert('omg' == format(i.prev(), i))
-      assert('</em>' == format(i.prev(), i))
-      assert('whatever' == format(i.prev(), i))
-      assert('<em>' == format(i.prev(), i))
+      assert('<strong>' == format(i.prev(), i));
+      assert('omg' == format(i.prev(), i));
+      assert('</em>' == format(i.prev(), i));
+      assert('whatever' == format(i.prev(), i));
+      assert('<em>' == format(i.prev(), i));
       assert(null == i.prev());
       assert(null == i.prev());
-      assert('<em>' == format(i))
-    })
+      assert('<em>' == format(i));
+    });
   });
 
   describe('atOpening() & atClosing()', function() {
     it('should accurately return atOpening() or atClosing()', function() {
       i = iterator(dom);
       assert(i.atOpening());
-      i.next() // hi
+      i.next(); // hi
       assert(i.atOpening());
-      i.next() // article
+      i.next(); // article
       assert(i.atOpening());
-      i.next() // em
+      i.next(); // em
       assert(i.atOpening());
-      i.next() // whatever
+      i.next(); // whatever
       assert(i.atOpening());
-      i.next() // /em
+      i.next(); // /em
       assert(i.atClosing());
-      i.next() // omg
+      i.next(); // omg
       assert(i.atOpening());
-      i.next() // strong
+      i.next(); // strong
       assert(i.atOpening());
-      i.next() // /strong
+      i.next(); // /strong
       assert(i.atClosing());
-      i.next() // /article
+      i.next(); // /article
       assert(i.atClosing());
-      i.next() // bye
+      i.next(); // bye
       assert(i.atOpening());
-      i.next() // /body
+      i.next(); // /body
       assert(i.atClosing());
-      i.next() // /body
+      i.next(); // /body
       assert(i.atClosing());
-      i.next() // /body
+      i.next(); // /body
       assert(i.atClosing());
-    })
-  })
+    });
+  });
 
   describe('revisit(false)', function() {
     it('from top: should ignore the element if you pass it again', function() {
@@ -208,13 +208,13 @@ describe('iterator', function() {
     it('from bottom: should ignore the element if you pass it again', function() {
       i = iterator(dom).revisit(false).closing();
       assert('</body>' == format(i));
-      assert('bye' == format(i.prev(), i))
-      assert('</article>' == format(i.prev(), i))
-      assert('</strong>' == format(i.prev(), i))
-      assert('omg' == format(i.prev(), i))
-      assert('</em>' == format(i.prev(), i))
-      assert('whatever' == format(i.prev(), i))
-      assert('hi' == format(i.prev(), i))
+      assert('bye' == format(i.prev(), i));
+      assert('</article>' == format(i.prev(), i));
+      assert('</strong>' == format(i.prev(), i));
+      assert('omg' == format(i.prev(), i));
+      assert('</em>' == format(i.prev(), i));
+      assert('whatever' == format(i.prev(), i));
+      assert('hi' == format(i.prev(), i));
       assert(null == i.prev());
       assert(null == i.prev());
       assert(null == i.prev());
@@ -231,30 +231,30 @@ describe('iterator', function() {
       i = iterator(dom);
       assert('hi' == i.peak().nodeValue);
       assert('BODY' == i.node.nodeName);
-      assert('hi' == i.next().nodeValue)
-    })
+      assert('hi' == i.next().nodeValue);
+    });
 
     it('should allow you to peak behind', function() {
       i = iterator(article).closing();
       assert('STRONG' == i.peak(-1).nodeName);
       assert('ARTICLE' == i.node.nodeName);
-      assert('STRONG' == i.prev().nodeName)
-    })
+      assert('STRONG' == i.prev().nodeName);
+    });
 
     it('should allow you to peak forward multiple nodes', function() {
       i = iterator(dom);
       assert('EM' == i.peak(3).nodeName);
       assert('BODY' == i.node.nodeName);
-      assert('hi' == i.next().nodeValue)
-    })
+      assert('hi' == i.next().nodeValue);
+    });
 
     it('should allow you to peak behind multiple nodes', function() {
       i = iterator(article).closing();
       assert('omg' == i.peak(-3).nodeValue);
       assert('ARTICLE' == i.node.nodeName);
-      assert('STRONG' == i.prev().nodeName)
-    })
-  })
+      assert('STRONG' == i.prev().nodeName);
+    });
+  });
 
   describe('it.{next,prev}(expr)', function() {
     it('should work with numbers', function() {
@@ -278,15 +278,15 @@ describe('iterator', function() {
       assert('omg' == i.prev('nodeType == 3 && nodeValue == "omg"').nodeValue);
       assert('BODY' == i.prev('nodeType == 1 && nodeName == "BODY"').nodeName);
       assert(null == i.prev('nodeType == 1 && nodeName == "BODY"'));
-      assert('<body>' == format(i))
-    })
+      assert('<body>' == format(i));
+    });
 
     it('should work with functions', function() {
       i = iterator(dom);
-      assert('omg' == i.next(function(node) { return node.nodeValue == 'omg'}).nodeValue);
-      assert('BODY' == i.prev(function(node) { return node.nodeName == 'BODY'}).nodeName);
-    })
-  })
+      assert('omg' == i.next(function(node) { return node.nodeValue == 'omg'; }).nodeValue);
+      assert('BODY' == i.prev(function(node) { return node.nodeName == 'BODY'; }).nodeName);
+    });
+  });
 
   describe('it.select(expr)', function() {
     it('should work with numbers', function() {
@@ -295,18 +295,18 @@ describe('iterator', function() {
         .select(8);
 
       assert('<body>' == format(i));
-      assert('hi' == format(i.next(), i))
-      assert('whatever' == format(i.next(), i))
-      assert('omg' == format(i.next(), i))
-      assert('bye' == format(i.next(), i))
+      assert('hi' == format(i.next(), i));
+      assert('whatever' == format(i.next(), i));
+      assert('omg' == format(i.next(), i));
+      assert('bye' == format(i.next(), i));
       assert(null == i.next());
       assert('bye' == format(i));
-      assert('omg' == format(i.prev(), i))
-      assert('whatever' == format(i.prev(), i))
-      assert('hi' == format(i.prev(), i))
+      assert('omg' == format(i.prev(), i));
+      assert('whatever' == format(i.prev(), i));
+      assert('hi' == format(i.prev(), i));
       assert(null == i.prev());
-      assert('hi' == format(i))
-    })
+      assert('hi' == format(i));
+    });
 
     it('should work with strings', function() {
       i = iterator(dom)
@@ -319,7 +319,7 @@ describe('iterator', function() {
       assert('</article>' == format(i.next(), i));
       assert(null == i.next());
       assert('</article>' == format(i));
-    })
+    });
   });
 
 describe('it.reject(expr)', function() {
@@ -329,18 +329,18 @@ describe('it.reject(expr)', function() {
       .reject(8);
 
     assert('<body>' == format(i));
-    assert('hi' == format(i.next(), i))
-    assert('whatever' == format(i.next(), i))
-    assert('omg' == format(i.next(), i))
-    assert('bye' == format(i.next(), i))
+    assert('hi' == format(i.next(), i));
+    assert('whatever' == format(i.next(), i));
+    assert('omg' == format(i.next(), i));
+    assert('bye' == format(i.next(), i));
     assert(null == i.next());
     assert('bye' == format(i));
-    assert('omg' == format(i.prev(), i))
-    assert('whatever' == format(i.prev(), i))
-    assert('hi' == format(i.prev(), i))
+    assert('omg' == format(i.prev(), i));
+    assert('whatever' == format(i.prev(), i));
+    assert('hi' == format(i.prev(), i));
     assert(null == i.prev());
-    assert('hi' == format(i))
-  })
+    assert('hi' == format(i));
+  });
 
   it('should work with strings', function() {
     i = iterator(dom)
@@ -359,10 +359,10 @@ describe('it.reject(expr)', function() {
     assert(null == i.next());
     assert(null == i.next());
     assert(null == i.next());
-    assert('</body>' == format(i))
-    assert('bye' == format(i.prev(), i))
-    assert('</strong>' == format(i.prev(), i))
-  })
+    assert('</body>' == format(i));
+    assert('bye' == format(i.prev(), i));
+    assert('</strong>' == format(i.prev(), i));
+  });
 });
 
   function format(node, it) {
@@ -381,4 +381,4 @@ describe('it.reject(expr)', function() {
     return out;
   }
 
-})
+});
