@@ -243,7 +243,6 @@ describe('iterator', function() {
 
     it('should allow you to peak forward multiple nodes', function() {
       i = iterator(dom);
-      console.log(i.peak(3));
       assert('EM' == i.peak(3).nodeName);
       assert('BODY' == i.node.nodeName);
       assert('hi' == i.next().nodeValue)
