@@ -22,7 +22,7 @@ module.exports = iterator;
 
 function iterator(node, root) {
   if (!(this instanceof iterator)) return new iterator(node, root);
-  this.node = this.start = this.peaked = node;
+  this.node = this.start = this.peeked = node;
   this.root = root;
   this.closingTag = false;
   this._revisit = true;
@@ -123,7 +123,7 @@ iterator.prototype.prev = traverse('previousSibling', 'lastChild');
 
 function traverse(dir, child) {
   var next = dir == 'nextSibling';
-  return function walk(expr, n, peak) {
+  return function walk(expr, n, peek) {
     expr = this.compile(expr);
     n = n && n > 0 ? n : 1;
     var node = this.node;
@@ -152,9 +152,9 @@ function traverse(dir, child) {
 
       if (!node || this.higher(node, this.root)) break;
 
-      if (expr(node) && this.selects(node, peak) && this.rejects(node, peak)) {
+      if (expr(node) && this.selects(node, peek) && this.rejects(node, peek)) {
         if (--n) continue;
-        if (!peak) this.node = node;
+        if (!peek) this.node = node;
         this.closingTag = closing;
         return node;
       }
@@ -183,18 +183,18 @@ iterator.prototype.select = function(expr) {
  * Run through the selects ORing each
  *
  * @param {Node} node
- * @param {Boolean} peak
+ * @param {Boolean} peek
  * @return {Boolean}
  * @api private
  */
 
-iterator.prototype.selects = function(node, peak) {
+iterator.prototype.selects = function(node, peek) {
   var exprs = this._selects;
   var len = exprs.length;
   if (!len) return true;
 
   for (var i = 0; i < len; i++) {
-    if (exprs[i].call(this, node, peak)) return true;
+    if (exprs[i].call(this, node, peek)) return true;
   };
 
   return false;
@@ -219,18 +219,18 @@ iterator.prototype.reject = function(expr) {
  * Run through the reject expressions ANDing each
  *
  * @param {Node} node
- * @param {Boolean} peak
+ * @param {Boolean} peek
  * @return {Boolean}
  * @api private
  */
 
-iterator.prototype.rejects = function(node, peak) {
+iterator.prototype.rejects = function(node, peek) {
   var exprs = this._rejects;
   var len = exprs.length;
   if (!len) return true;
 
   for (var i = 0; i < len; i++) {
-    if (exprs[i].call(this, node, peak)) return false;
+    if (exprs[i].call(this, node, peek)) return false;
   };
 
   return true;
@@ -275,8 +275,8 @@ iterator.prototype.compile = function(expr) {
 };
 
 /**
- * Peak in either direction
- * `n` nodes. Peak backwards
+ * Peek in either direction
+ * `n` nodes. Peek backwards
  * using negative numbers.
  *
  * @param {Number} n (optional)
@@ -284,7 +284,8 @@ iterator.prototype.compile = function(expr) {
  * @api public
  */
 
-iterator.prototype.peak = function(expr, n) {
+iterator.prototype.peak = 
+iterator.prototype.peek = function(expr, n) {
   if (arguments.length == 1) n = expr, expr = true;
   n = undefined == n ? 1 : n;
   if (!n) return this.node;

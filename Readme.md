@@ -154,21 +154,21 @@ var it = it(dom).closing()
 it.prev() // 'hi'
 ```
 
-### `iterator.peak([expr], [n])`
+### `iterator.peek([expr], [n])`
 
-Sometimes you want to peak on the following or previous node without actually visiting it. With `peak` you can peak forward or backwards `n` steps. If no `n` is given, peak forward 1 step.
+Sometimes you want to peek on the following or previous node without actually visiting it. With `peek` you can peek forward or backwards `n` steps. If no `n` is given, peek forward 1 step.
 
 Peaking forward:
 
 ```js
-it.peak(); // peak forward 1
-it.peak(3); // peak forward 3 steps
+it.peek(); // peek forward 1
+it.peek(3); // peek forward 3 steps
 ```
 
 Peaking backwards:
 
 ```js
-it.peak(Node.ElementNode, -3) // peak backwards 3 steps, only selecting element nodes
+it.peek(Node.ElementNode, -3) // peek backwards 3 steps, only selecting element nodes
 ```
 
 ### `iterator.reset([newNode])`
