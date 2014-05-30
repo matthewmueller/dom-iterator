@@ -1,4 +1,10 @@
 
+0.2.1 / 2014-05-29
+==================
+
+  * index: do not throw an Error when given a falsey DOM node, and a root element
+  * test: remove `console.log()` call
+
 0.2.0 / 2014-02-10
 ==================
 
