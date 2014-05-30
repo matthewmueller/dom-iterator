@@ -6,22 +6,22 @@ var xor = require('xor');
 var props = require('props');
 
 /**
- * Export `iterator`
+ * Export `Iterator`
  */
 
-module.exports = iterator;
+module.exports = Iterator;
 
 /**
- * Initialize `iterator`
+ * Initialize `Iterator`
  *
  * @param {Node} node
  * @param {Node} root
- * @return {iterator} self
+ * @return {Iterator} self
  * @api public
  */
 
-function iterator(node, root) {
-  if (!(this instanceof iterator)) return new iterator(node, root);
+function Iterator(node, root) {
+  if (!(this instanceof Iterator)) return new Iterator(node, root);
   this.node = this.start = this.peeked = node;
   this.root = root;
   this.closingTag = false;
@@ -35,14 +35,14 @@ function iterator(node, root) {
 }
 
 /**
- * Reset the iterator
+ * Reset the Iterator
  *
  * @param {Node} node (optional)
- * @return {iterator} self
+ * @return {Iterator} self
  * @api public
  */
 
-iterator.prototype.reset = function(node) {
+Iterator.prototype.reset = function(node) {
   this.node = node || this.start;
   return this;
 };
@@ -51,7 +51,7 @@ iterator.prototype.reset = function(node) {
  * Revisit element nodes. Defaults to `true`
  */
 
-iterator.prototype.revisit = function(revisit) {
+Iterator.prototype.revisit = function(revisit) {
   this._revisit = undefined == revisit ? true : revisit;
   return this;
 };
@@ -60,7 +60,7 @@ iterator.prototype.revisit = function(revisit) {
  * Jump to the opening tag
  */
 
-iterator.prototype.opening = function() {
+Iterator.prototype.opening = function() {
   if (1 == this.node.nodeType) this.closingTag = false;
   return this;
 };
@@ -69,7 +69,7 @@ iterator.prototype.opening = function() {
  * Jump to the closing tag
  */
 
-iterator.prototype.atOpening = function() {
+Iterator.prototype.atOpening = function() {
   return !this.closingTag;
 };
 
@@ -78,7 +78,7 @@ iterator.prototype.atOpening = function() {
  * Jump to the closing tag
  */
 
-iterator.prototype.closing = function() {
+Iterator.prototype.closing = function() {
   if (1 == this.node.nodeType) this.closingTag = true;
   return this;
 };
@@ -87,7 +87,7 @@ iterator.prototype.closing = function() {
  * Jump to the closing tag
  */
 
-iterator.prototype.atClosing = function() {
+Iterator.prototype.atClosing = function() {
   return this.closingTag;
 };
 
@@ -99,7 +99,7 @@ iterator.prototype.atClosing = function() {
  * @api public
  */
 
-iterator.prototype.next = traverse('nextSibling', 'firstChild');
+Iterator.prototype.next = traverse('nextSibling', 'firstChild');
 
 /**
  * Previous node
@@ -109,8 +109,8 @@ iterator.prototype.next = traverse('nextSibling', 'firstChild');
  * @api public
  */
 
-iterator.prototype.previous =
-iterator.prototype.prev = traverse('previousSibling', 'lastChild');
+Iterator.prototype.previous =
+Iterator.prototype.prev = traverse('previousSibling', 'lastChild');
 
 /**
  * Make traverse function
@@ -169,11 +169,11 @@ function traverse(dir, child) {
  * to be truthy
  *
  * @param {Number|String|Function} expr
- * @return {iterator} self
+ * @return {Iterator} self
  * @api public
  */
 
-iterator.prototype.select = function(expr) {
+Iterator.prototype.select = function(expr) {
   expr = this.compile(expr);
   this._selects.push(expr);
   return this;
@@ -188,7 +188,7 @@ iterator.prototype.select = function(expr) {
  * @api private
  */
 
-iterator.prototype.selects = function(node, peek) {
+Iterator.prototype.selects = function(node, peek) {
   var exprs = this._selects;
   var len = exprs.length;
   if (!len) return true;
@@ -205,11 +205,11 @@ iterator.prototype.selects = function(node, peek) {
  * to be falsy
  *
  * @param {Number|String|Function} expr
- * @return {iterator} self
+ * @return {Iterator} self
  * @api public
  */
 
-iterator.prototype.reject = function(expr) {
+Iterator.prototype.reject = function(expr) {
   expr = this.compile(expr);
   this._rejects.push(expr);
   return this;
@@ -224,7 +224,7 @@ iterator.prototype.reject = function(expr) {
  * @api private
  */
 
-iterator.prototype.rejects = function(node, peek) {
+Iterator.prototype.rejects = function(node, peek) {
   var exprs = this._rejects;
   var len = exprs.length;
   if (!len) return true;
@@ -246,7 +246,7 @@ iterator.prototype.rejects = function(node, peek) {
  * @api private
  */
 
-iterator.prototype.higher = function(node) {
+Iterator.prototype.higher = function(node) {
   var root = this.root;
   if (!root) return false;
   node = node.parentNode;
@@ -261,7 +261,7 @@ iterator.prototype.higher = function(node) {
  * @return {Function}
  */
 
-iterator.prototype.compile = function(expr) {
+Iterator.prototype.compile = function(expr) {
   switch (typeof expr) {
     case 'number':
       return function(node) { return expr == node.nodeType; };
@@ -284,8 +284,8 @@ iterator.prototype.compile = function(expr) {
  * @api public
  */
 
-iterator.prototype.peak = 
-iterator.prototype.peek = function(expr, n) {
+Iterator.prototype.peak =
+Iterator.prototype.peek = function(expr, n) {
   if (arguments.length == 1) n = expr, expr = true;
   n = undefined == n ? 1 : n;
   if (!n) return this.node;
@@ -297,11 +297,11 @@ iterator.prototype.peek = function(expr, n) {
  * Add a plugin
  *
  * @param {Function} fn
- * @return {iterator}
+ * @return {Iterator}
  * @api public
  */
 
-iterator.prototype.use = function(fn) {
+Iterator.prototype.use = function(fn) {
   fn(this);
   return this;
 };
