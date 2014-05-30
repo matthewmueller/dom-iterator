@@ -150,6 +150,12 @@ describe('iterator', function() {
       assert(null == i.prev());
       assert('<em>' == format(i));
     });
+
+    it('should not throw an Error when given a falsey DOM node', function() {
+      var dom = parse('<blockquote></blockquote>');
+      var it = iterator(dom.firstChild, dom);
+      assert(null == it.next());
+    });
   });
 
   describe('atOpening() & atClosing()', function() {

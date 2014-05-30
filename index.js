@@ -29,7 +29,7 @@ function iterator(node, root) {
   this._selects = [];
   this._rejects = [];
 
-  if (this.higher(node)) {
+  if (node && this.higher(node)) {
     throw new Error('root must be a parent or ancestor to node');
   }
 }
