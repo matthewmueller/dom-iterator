@@ -8,8 +8,8 @@
     "dom"
   ],
   "dependencies": {
-    "component/xor": "0.0.2",
-    "component/props": "1.1.0"
+    "component/xor": "0.0.3",
+    "component/props": "1.1.1"
   },
   "development": {
     "component/domify": "*",

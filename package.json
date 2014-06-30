@@ -8,8 +8,8 @@
     "test": "test"
   },
   "dependencies": {
-    "xor": "component/xor#0.0.2",
-    "props": "component/props#1.0.3"
+    "xor": "component/xor#0.0.3",
+    "props": "component/props#1.1.1"
   },
   "devDependencies": {
     "mini-html-parser": "0.0.3",
