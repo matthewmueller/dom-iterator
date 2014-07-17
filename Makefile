@@ -14,7 +14,4 @@ test:
 test-browser:
 	@./node_modules/.bin/component-test browser
 
-npm:
-	@mv ./node_modules/props-component ./node_modules/props 2> /dev/null; true;
-
 .PHONY: clean test test-browser
