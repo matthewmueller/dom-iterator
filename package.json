@@ -8,16 +8,19 @@
     "test": "test"
   },
   "dependencies": {
-    "xor": "component/xor#0.0.3",
-    "props": "component/props#1.1.1"
+    "component-xor": "0.0.3",
+    "component-props": "1.1.1"
   },
   "devDependencies": {
     "mini-html-parser": "0.0.3",
     "mocha": "~1.17.1",
     "component-test": "~0.1.3"
   },
+  "browser": {
+    "xor": "component-xor",
+    "props": "component-props"
+  },
   "scripts": {
-    "postinstall": "make npm",
     "test": "make test"
   },
   "repository": {
