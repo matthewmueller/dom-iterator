@@ -1,4 +1,13 @@
 
+0.3.0 / 2014-07-20
+==================
+
+ * no "postinstall", use "component-*" prefix on deps (#7, @TooTallNate)
+ * component, package: update deps
+ * add .jshintrc file
+ * index: s/iterator/Iterator/
+ * peak => peek
+
 0.2.1 / 2014-05-29
 ==================
 
