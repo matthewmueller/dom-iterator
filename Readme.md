@@ -18,10 +18,10 @@
 ## Example
 
 ```js
-var it = iterator(node).filter(Node.TEXT_NODE);
+var it = iterator(node);
 var next;
 
-while (next = it.next()) {
+while (next = it.next(Node.TEXT_NODE)) {
   console.log(next.nodeValue) // next textnodes after node
 }
 ```
