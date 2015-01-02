@@ -18,10 +18,10 @@
 ## Example
 
 ```js
-var it = iterator(node).filter(Node.TEXT_NODE);
+var it = iterator(node);
 var next;
 
-while (next = it.next()) {
+while (next = it.next(Node.TEXT_NODE)) {
   console.log(next.nodeValue) // next textnodes after node
 }
 ```
@@ -50,7 +50,7 @@ Defaults to `1` or the `1st` node.
 ```js
 var node = it.next()
 // select the 2nd element node we come across
-var next = it.next(Node.ElementNode, 2)
+var next = it.next(Node.ELEMENT_NODE, 2)
 ```
 
 Here's a look at how the DOM is traversed:
@@ -69,7 +69,7 @@ Defaults to `1` or the `1st` node.
 ```js
 var node = it.prev()
 // select the 2nd element node we come across
-var prev = it.prev(Node.ElementNode, 2)
+var prev = it.prev(Node.ELEMENT_NODE, 2)
 ```
 
 Here's a look at how the DOM is traversed:
@@ -84,7 +84,7 @@ enum, number, string or function. If it's a number, the `nodeType` is compared.
 This function can be chained where all expressions are OR-ed.
 
 ```js
-it.select(Node.ElementNode)
+it.select(Node.ELEMENT_NODE)
   .select(8)
   .select('nodeValue == "sloth"')
   .select(fn)
@@ -104,7 +104,7 @@ enum, number, string or function. If it's a number, the `nodeType` is compared.
 This function can be chained where all expressions are AND-ed.
 
 ```js
-it.reject(Node.ElementNode)
+it.reject(Node.ELEMENT_NODE)
   .reject(8)
   .reject('nodeValue == "sloth"')
   .reject(fn)
@@ -168,7 +168,7 @@ it.peek(3); // peek forward 3 steps
 Peaking backwards:
 
 ```js
-it.peek(Node.ElementNode, -3) // peek backwards 3 steps, only selecting element nodes
+it.peek(Node.ELEMENT_NODE, -3) // peek backwards 3 steps, only selecting element nodes
 ```
 
 ### `iterator.reset([newNode])`
