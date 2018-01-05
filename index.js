@@ -2,19 +2,9 @@
  * Module Dependencies
  */
 
-var xor, props;
+var xor = require('component-xor');
+var props = require('component-props');
 
-try {
-  xor = require('component-xor');
-} catch (e) {
-  xor = require('xor');
-}
-
-try {
-  props = require('component-props');
-} catch (e) {
-  props = require('props');
-}
 
 /**
  * Export `Iterator`
