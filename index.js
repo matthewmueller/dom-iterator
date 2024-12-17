@@ -267,7 +267,7 @@ Iterator.prototype.compile = function(expr) {
     case 'number':
       return function(node) { return expr == node.nodeType; };
     case 'string':
-      return new Function('node', 'return ' + props(expr, 'node.'));
+      return new Function('node', 'Object.freeze(node); return ' + props(expr, 'node.'));
     case 'function':
       return expr;
     default:
