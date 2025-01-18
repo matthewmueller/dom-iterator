@@ -1,3 +1,7 @@
+# 0.1.2 / 2025-01-18
+
+- Merge pull request #15 from arjangeertsema/master
+
 # 0.1.1 / 2025-01-12
 
 - pin deps and get node test suite working
