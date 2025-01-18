@@ -8,13 +8,12 @@
     "test": "test"
   },
   "dependencies": {
-    "cheerio-select": "0.0.3",
     "component-props": "1.1.1",
     "component-xor": "0.0.4"
   },
   "devDependencies": {
-    "component": "0.x",
     "chalk": "2.1.0",
+    "component": "0.x",
     "component-domify": "1.2.2",
     "component-test": "0.1.7",
     "mini-html-parser": "0.0.3",
